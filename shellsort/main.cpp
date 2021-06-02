@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
    std::cout << "Number of values: ";
    std::cin >> c;
 
+
    std::cout << "Number of threads: ";
    std::cin >> r;
 
@@ -34,15 +35,16 @@ int main(int argc, char *argv[])
    std::vector<int> a(c);
    for(int i = c; --i >= 0;) a[i] = c - i;
 
-   std::copy(a.cbegin(), a.cend(), std::ostream_iterator<int>(std::cout, " "));
-   std::cout << std::endl;
+
 
    const auto s = high_resolution_clock::now();
    shell_sort(a);
    auto t = duration_cast<duration<double, std::ratio<1>>>(high_resolution_clock::now() - s).count();
 
-   std::copy(a.cbegin(), a.cend(), std::ostream_iterator<int>(std::cout, " "));
-   std::cout << ": " << t << " ms." << std::endl;
+   for(size_t i = 0; i < a.size(); ++i)
+      if(a[i] != i + 1)
+         std::cout << "fail - " << a[i] << " != " << (i + 1) << std::endl;
+   std::cout << t << " ms." << std::endl;
 
    return 0;
 }
